@@ -5,7 +5,6 @@ A template engine like mustache.js,so according to the mustache.js document,but 
 
 var tpl = new String( 'Hi,{{ lastName || middleName  }}!How are you?' );
 
-//return Hi,yanDiv!How are you?
 depot.render( tpl,{
   middleName: 'yanDiv'
 });
