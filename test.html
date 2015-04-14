@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+数组 {{ #div }}  {{ /div }}
+	或 {{ name|age|funk }}
+	三目运算 {{ name ? <div></div> : <a></a> ? 'a' : 'c' }}
+	运算  {{ ＋ － ／ * }}
+	枚举 {{ . }}
+
+	/\{\{\s*([#\/@\!\^]?)([a-z_A-Z]{1}[\w_\/\|\.]*)\s*\}\}/g.test();
+
+	/[a-z_A-Z]{1}[\w_]+|[\+\-\|\?\:\*]/g
+
+	/[a-z_A-Z]{1}[\w_]*?/g
+
+	{{if:div}}
+
+
+	/\s*[#\/]?|if|else\s?[a-z_A-Z]{1}[\w_]/g
+	/\s*([#\/]|(?:(if)\s+)|else)?([a-z_A-Z]{1}[\w_]*)\s*/g.exec( '{{name}}' )
+<script type="javascript/tpl" id="tpl-1">
+	My name is {{ name|firstName }},{{@info.age}},{{@info.instring}}
+
+</script>
+
+<script type="javascript/tpl" id="tpl-2">
+	I am {{age}} years old.
+</script>
+<script type="javascript/tpl" id="tpl-3">
+	I am love {{#instring}}{{.}}{{/instring}}
+</script>
+<script type="text/tpl" id="must">
+	My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+	My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love {{#instring}}{{.}}{{/instring}}
+	My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+	My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love {{#instring}}{{.}}{{/instring}}
+
+	My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+	My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love {{#instring}}{{.}}{{/instring}}
+	My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+	My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love 
+
+My name is {{ name|firstName }}
+	I am {{age}} years old.
+	I am love {{#instring}}{{.}}{{/instring}}
+
+</script>
+
+<script type="text/javascript" src="./depot.js"></script>
+<script type="text/javascript" src="./mustache.min.js"></script>
+<script type="text/javascript">
+	var tpl = document.getElementById( 'tpl-1' ).innerHTML,
+		age = document.getElementById( 'tpl-2' ).innerHTML,
+		instring = document.getElementById( 'tpl-3' ).innerHTML,
+		m = document.getElementById( 'must' ).innerHTML,
+		sm = new String( m );
+
+		debugger;
+		console.time( 'm' );
+		console.log( m == sm);
+		console.timeEnd( 'm' );
+
+		console.profile();
+		Mustache.render( m,{
+			age: 24,
+			firstName: 'Wei',
+			instring: 
+				[
+					'football',
+					'programming',
+					'loving'
+				]
+		})
+
+		console.profileEnd();
+		console.time('d');
+		console.profile();
+
+		console.log(Depot.render( m,{
+			age: 24,
+			firstName: 'Wei',
+			instring: 
+				[
+					'football',
+					'programming',
+					'loving'
+				]
+		}));
+		console.profileEnd();
+		console.timeEnd('d');	
+	
+</script>
+</body>
+</html>
