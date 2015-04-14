@@ -23,7 +23,7 @@
 	/\s*[#\/]?|if|else\s?[a-z_A-Z]{1}[\w_]/g
 	/\s*([#\/]|(?:(if)\s+)|else)?([a-z_A-Z]{1}[\w_]*)\s*/g.exec( '{{name}}' )
 <script type="javascript/tpl" id="tpl-1">
-	My name is {{ name|firstName }},{{@info.age}},{{@info.instring}}
+	My name is {{ name|firstName }},{{@import}}
 
 </script>
 
@@ -34,140 +34,47 @@
 	I am love {{#instring}}{{.}}{{/instring}}
 </script>
 <script type="text/tpl" id="must">
-	My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-	My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love {{#instring}}{{.}}{{/instring}}
-	My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-	My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love {{#instring}}{{.}}{{/instring}}
-
-	My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-	My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love {{#instring}}{{.}}{{/instring}}
-	My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-	My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love 
-
-My name is {{ name|firstName }}
-	I am {{age}} years old.
-	I am love {{#instring}}{{.}}{{/instring}}
-
+	My name is {{ name === undefined ? 'Olivia' : 'yanDiv' }}.
+	{{@import age}}.
+	{{#instring}}
+		{{ i + 1 }}. {{.}}
+	{{/instring}}
+	{{#family}}
+		{{ i + 1 }} > name: {{name}}  age: {{age}}
+	{{/family}}
 </script>
 
-<script type="text/javascript" src="./depot.js"></script>
-<script type="text/javascript" src="./mustache.min.js"></script>
+<script type="text/javascript" src="./depot.core.js"></script>
+<script type="text/javascript" src="./depot.extension.js"></script>
+
 <script type="text/javascript">
 	var tpl = document.getElementById( 'tpl-1' ).innerHTML,
 		age = document.getElementById( 'tpl-2' ).innerHTML,
 		instring = document.getElementById( 'tpl-3' ).innerHTML,
 		m = document.getElementById( 'must' ).innerHTML,
-		sm = new String( m );
+		sm = new String( m ),
+		output;
+		
 
-		debugger;
-		console.time( 'm' );
-		console.log( m == sm);
-		console.timeEnd( 'm' );
-
-		console.profile();
-		Mustache.render( m,{
-			age: 24,
+		console.time( 'render.whole' );
+		output = Depot.render( new String( m ),{
+			age: new String( age ),
 			firstName: 'Wei',
+			age: 24,
 			instring: 
 				[
 					'football',
 					'programming',
 					'loving'
-				]
+				],
+			family:[
+				{ name: 'Olivia' },
+				{ name: 'Wei' }
+			]
 		})
-
-		console.profileEnd();
-		console.time('d');
-		console.profile();
-
-		console.log(Depot.render( m,{
-			age: 24,
-			firstName: 'Wei',
-			instring: 
-				[
-					'football',
-					'programming',
-					'loving'
-				]
-		}));
-		console.profileEnd();
-		console.timeEnd('d');	
+		console.timeEnd( 'render.whole' );
+		console.log( output );
+		
 	
 </script>
 </body>
