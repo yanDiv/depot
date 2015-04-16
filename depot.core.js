@@ -54,16 +54,14 @@ var Depot = function( global,undefined,Depot ){
 				that = this,
 				method = this.method;
 
-			console.time( 'Parse.tmpl' );
-
 			(function( tmpl,handle ){
 				var depot = Depot,
 					name = depot.tagName,
 					occupy = depot.occupying,
 					escp = escape,
 					rthunk = new RegExp( escp( 'regexp',name[ 0 ] ) + '\\s*(.*?)\\s*' + escp( 'regexp',name[ 1 ] ),'g' ),
-					rmark = new RegExp( '[' + rsn.join('') + ']|(@(' + rmk.join( '|' ) + ')){1}','g' ),
-					rtokens = /[a-z_A-Z'"]{1}[\s\w_\.\|\+\-\?\:%&\(\)\/='"]*/g,
+					rmark = new RegExp( '^[' + rsn.join('') + ']|(@(' + rmk.join( '|' ) + ')){1}','g' ),
+					rtokens = /[<>\d\s\w_\.\|\+\-\?\:%&\(\)\/='"]+|'.*'|".*"/g,
 					total = tmpl.length,
 					record = 0,
 					self = that,
@@ -84,6 +82,7 @@ var Depot = function( global,undefined,Depot ){
 					}
 					mark = rmark.exec( holder );
 					holder = holder.slice( rmark.lastIndex );
+
 					tokens = rtokens.exec( holder )[ 0 ];
 
 					handle.call( this,{
@@ -117,8 +116,6 @@ var Depot = function( global,undefined,Depot ){
 					this.pieces.push( piece );
 				}
 			});
-
-			console.timeEnd( 'Parse.tmpl' )
 
 			return ctx;
 		}
@@ -243,8 +240,7 @@ var Depot = function( global,undefined,Depot ){
 	}
 
 	Depot.returnValue = function( tokens,model ){
-		console.time( 'returnValue' );
-		var rval = /([a-z_A-Z]{1}[\w\.]*)|'.*'|".*"|\d+|[\+\-\?\:%&\(\)\/\*\|=]+/g,
+		var rval = /([a-z_A-Z]{1}[\w\.]*)|'.*'|".*"|\d+|[<>\+\-\?\:%&\(\)\/\*\|=]+/g,
 			item = [],
 			fn = Function,
 			word;
@@ -253,7 +249,11 @@ var Depot = function( global,undefined,Depot ){
 
 		while( word ){
 			word[ 0 ] == 'undefined' || 
+			word[ 0 ] == 'true' ||
+			word[ 0 ] == 'false' ||
 			word[ 0 ] == 'null' ||
+			word[ 0 ] == '>' ||
+			word[ 0 ] == '<' ||
 			word[ 0 ] == '+' ||
 			word[ 0 ] == '-' ||
 			word[ 0 ] == '/' ||
@@ -273,7 +273,6 @@ var Depot = function( global,undefined,Depot ){
 			word = rval.exec( tokens );
 		}
 
-		console.timeEnd( 'returnValue' );
 		return fn( 'try{ return ('+ item.join('') +'); }catch(e){return undefined}' ).call( model );
 	}
 

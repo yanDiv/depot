@@ -72,6 +72,55 @@ Depot.parseMethod(function(){
 	return ret;
 }());
 
+Depot.parseMethod(function(){
+	var ret = {},
+		x,
+		y,
+		token,
+		mark;
+
+	ret[ '@if' ] = function( tokens,s,m,e,tmpl,ctx ){
+		var piece;
+
+		if( !ctx.state ){
+			return;
+		}
+
+		if( piece = tmpl.slice( s,m ) ){
+			this.pieces.push( piece );
+		}
+
+		this.pieces.push( undefined );
+
+		x = m;
+		y = e;
+		token = tokens.tokens;
+		ctx.state = false;
+	};
+
+	ret[ '@endif' ] = ret[ '\/' ] = function( tokens,s,m,e,tmpl,ctx ){
+		var piece,
+			tpl;
+
+		if( token == tokens.tokens ){
+			tpl = tmpl.slice( y,s );
+			if( piece = tmpl.slice( s,m ) ){
+				this.pieces.push( piece );
+			}
+
+			this.tokens.push({
+				type: '@each',
+				tpl: new String( tpl ),
+				tokens: token
+			});
+			x = y = token = undefined;
+			ctx.state = true;
+		}
+	} 
+
+	return ret;
+}());
+
 Depot.renderMethod({
 	'*': function( object,tokens,model ){
 		var t = Depot.returnValue( tokens,model );
@@ -90,7 +139,6 @@ Depot.renderMethod({
 			holder,
 			hold;
 			
-
 		if( val.length < 1 ){
 			return ret;
 		}

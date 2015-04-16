@@ -34,14 +34,7 @@
 	I am love {{#instring}}{{.}}{{/instring}}
 </script>
 <script type="text/tpl" id="must">
-	My name is {{ name === undefined ? 'Olivia' : 'yanDiv' }}.
-	{{@import age}}.
-	{{#instring}}
-		{{ i + 1 }}. {{.}}
-	{{/instring}}
-	{{#family}}
-		{{ i + 1 }} > name: {{name}}  age: {{age}}
-	{{/family}}
+	My name is {{ name === undefined ? 'Olivia' : 'yanDiv' }}.{{ false ? '<div>1</div>' :'<a>2</a>' }}
 </script>
 
 <script type="text/javascript" src="./depot.core.js"></script>
@@ -56,7 +49,7 @@
 		output;
 		
 
-		console.time( 'render.whole' );
+		console.profile( 'render.whole' );
 		output = Depot.render( new String( m ),{
 			age: new String( age ),
 			firstName: 'Wei',
@@ -72,8 +65,7 @@
 				{ name: 'Wei' }
 			]
 		})
-		console.timeEnd( 'render.whole' );
-		console.log( output );
+		console.profileEnd( 'render.whole' );
 		
 	
 </script>
